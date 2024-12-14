@@ -5,19 +5,22 @@
 using namespace std;
 using namespace chrono;
 
-// Всякие сортировки
+// Заполнение массива случайными числами и их вывод.
 void FillArr(int arr[], int arrSize) {
 	for (int i = 0; i < arrSize; i++) {
 		arr[i] = (rand() % 199) - 99; // Диапазон от -99 до 99
-		cout << arr[i] << " "; // Вывод массива
+		cout << arr[i] << " "; 
 	}
 	cout << endl;
 }
+
+// Вывод массива.
 void PrintArr(int arr[], int arrSize) {
 	for (int i = 0; i < arrSize; i++) {
 		cout << arr[i] << " ";
 	}
 }
+// Сортировка пузырьком.
 void BubbleSort(int arr[], int arrSize) {
 	for (int i = 0; i < arrSize; i++) {
 		for (int j = 0; j < arrSize - i - 1; j++) {
@@ -27,6 +30,7 @@ void BubbleSort(int arr[], int arrSize) {
 		}
 	}
 }
+// Сортировка шейкером.
 void ShakerSort(int arr[], int arrSize)
 {
 	bool swapped = true;
@@ -58,6 +62,7 @@ void ShakerSort(int arr[], int arrSize)
 		++start;
 	}
 }
+// Соритровка расчёской.
 void CombSort(int arr[], int arrSize) {
 	float k = 1.247;
 	float S = arrSize - 1;
@@ -97,6 +102,7 @@ void CombSort(int arr[], int arrSize) {
 	}
 
 }
+// Сортировка вставками
 void InsertionSort(int arr[], int arrSize) {
 	{
 		for (int i = 1; i < arrSize; i++)
@@ -110,6 +116,7 @@ void InsertionSort(int arr[], int arrSize) {
 		}
 	}
 }
+// Быстрая сортировка.
 void QuickSort(int arr[], int begin, int end) {
 	int mid;
 	int f = begin;
@@ -124,9 +131,10 @@ void QuickSort(int arr[], int begin, int end) {
 			l--;
 		}
 	}
-	if (begin < l) QuickSort(arr, begin, l); 
-	if (f < end) QuickSort(arr, f, end); 
+	if (begin < l) QuickSort(arr, begin, l);
+	if (f < end) QuickSort(arr, f, end);
 }
+// Сортировка Шелла.
 void ShellSort(int arr[], int arrSize)
 {
 	int i, j, step;
@@ -147,11 +155,13 @@ void ShellSort(int arr[], int arrSize)
 }
 
 
-// Поиск макс, мин элемента и их среднее.
+// Структура минимального и максимального значений.
 struct MinMax {
 	int min;
 	int max;
 };
+
+// Поиск минимальных и максимальных элементов.
 MinMax MinAndMaxValue(int arr[], int arrSize, bool sorted) {
 	MinMax result = { arr[0], arr[0] };
 	if (sorted) {
@@ -170,25 +180,17 @@ MinMax MinAndMaxValue(int arr[], int arrSize, bool sorted) {
 	}
 	return result;
 }
-/* int MaxValue(int arr[], int arrSize) {
-	int max = arr[0];
-	for (int i = 1; i < arrSize; i++) {
-		if (arr[i] > max) {
-			max = arr[i];
-		}
-	}
-	return max;
-}*/
+// Среднее значение минимального и максимального элементов
 void AvgMinMax(int arr[], int arrSize, bool sorted) {
 	MinMax resault = MinAndMaxValue(arr, arrSize, sorted);
 	int avg = (float(resault.max + resault.min) / 2);
 	int cnt = 0;
 	cout << "Средний результат максимального и минимального элемента: " << avg << endl;
 	cout << "Индексы элементов равные среднему значению: ";
-	for (int i = 0; i < arrSize; i++) {
+	for (int i = 0; i < arrSize && (!sorted || arr[i] <= avg); i++) {
 		if (arr[i] == avg) {
 			cout << i << " ";
-			cnt += 1;
+			++cnt;
 		}
 
 	}
@@ -198,35 +200,25 @@ void AvgMinMax(int arr[], int arrSize, bool sorted) {
 }
 
 
-
+// Подсчёт количества элементов меньше заданного числа.
 int CntLess(int arr[], int arrSize, int choice) {
 	int cnt = 0;
-	for (int i = 0; i < arrSize; i++) {
-		if (arr[i] < choice) {
-			cnt += 1;
-		}
-		else {
-			break;
-		}
+	for (int i = 0; i < arrSize && arr[i] < choice; i++) {
+		++cnt;
 	}
-	return cnt;
-
-
+return cnt;
 }
+
+// Подсчёт количества элементов больше заданного числа.
 int CntUp(int arr[], int arrSize, int choice) {
 	int cnt = 0;
 
-	for (int i = arrSize - 1; i > 0; i--) {
-		if (arr[i] > choice) {
-			cnt += 1;
-		}
-		else {
-			break;
-		}
+	for (int i = arrSize - 1; i >= 0 && arr[i] > choice; i--) {
+		++cnt;
 	}
-	return cnt;
+return cnt;
 }
-
+// Бинарный поиск.
 bool BinarySearh(int arr[], int arrSize, int choice) {
 	int low = 0;
 	while (low <= arrSize) {
@@ -241,6 +233,7 @@ bool BinarySearh(int arr[], int arrSize, int choice) {
 	}
 	return false;
 }
+// Обычный линейный поиск.
 bool JustSearch(int arr[], int arrSize, int choice) {
 	for (int i = 1; i < arrSize; i++) {
 		if (arr[i] == choice) {
@@ -252,7 +245,7 @@ bool JustSearch(int arr[], int arrSize, int choice) {
 
 
 int main() {
-	setlocale(0, ""); // Рашн
+	setlocale(0, ""); // Русский язык.
 	srand(time(NULL));
 	time_point<steady_clock, duration<__int64, ratio<1, 1000000000>>> start, end;
 	nanoseconds resultTime;
@@ -260,11 +253,12 @@ int main() {
 
 	const unsigned int N = 600; // Размерность массива
 	int arr[N]; // Сам массив
-	bool notSorted = false;
+	
 	bool started = true;
 	bool choiseStarted = true;
 
 	while (started) {
+		bool notSorted = false;
 		int sortChoice;
 		int operationChoice;
 		cout << "Размерность массива - " << N << endl;
@@ -287,15 +281,15 @@ int main() {
 			break;
 		}
 		start = steady_clock::now();
-		switch (sortChoice) {
-		case 1: BubbleSort(arr, N); break;
-		case 2: ShakerSort(arr, N); break;
-		case 3: CombSort(arr, N); break;
-		case 4: InsertionSort(arr, N); break;
-		case 5: QuickSort(arr, 0, N - 1); break;
-		case 6: ShellSort(arr, N); break;
-		case 7: notSorted = true; break;
-		default: cout << "Неверный выбор" << endl;
+			switch (sortChoice) {
+			case 1: BubbleSort(arr, N); break;
+			case 2: ShakerSort(arr, N); break;
+			case 3: CombSort(arr, N); break;
+			case 4: InsertionSort(arr, N); break;
+			case 5: QuickSort(arr, 0, N - 1); break;
+			case 6: ShellSort(arr, N); break;
+			case 7: notSorted = true; break;
+			default: cout << "Неверный выбор" << endl;
 		}
 
 		end = steady_clock::now();
@@ -308,8 +302,6 @@ int main() {
 		cout << "Теперь предстоит выбрать методы для работы с массивом: " << endl;
 
 		while (choiseStarted) {
-			bool searchedElement;
-			int wantedElement;
 
 			int choiceNumber;
 			int cnt;
@@ -346,12 +338,10 @@ int main() {
 				break;
 			}
 			case 3: {
-				
-				if (notSorted) {
-					cout << "Нужен именно отсортированный массив!!" << endl;
-					break;
-				}
-				
+
+				if (notSorted) { cout << "Нужен именно отсортированный массив!!" << endl; break; }
+
+
 				cout << "Введите число а: " << endl;
 				cin >> choiceNumber;
 
@@ -362,11 +352,9 @@ int main() {
 				cout << "Кол-во элементов меньших числа а: " << cnt << "\nЗатраченное время: " << resultTime.count() << endl;
 				break;
 			}
-			case 4:{
-				if (notSorted) {
-					cout << "Нужен именно отсортированный массив!!" << endl;
-					break;
-				}
+			case 4: {
+
+				if (notSorted) { cout << "Нужен именно отсортированный массив!!" << endl; break; }
 
 				cout << "Введите число b: " << endl;
 				cin >> choiceNumber;
@@ -375,45 +363,38 @@ int main() {
 				cnt = CntUp(arr, N, choiceNumber);
 				end = steady_clock::now();
 				resultTime = duration_cast<nanoseconds>(end - start);
+
 				cout << "Кол-во элементов меньших числа b: " << cnt << "\nЗатраченное время: " << resultTime.count() << endl;
 				break;
 			}
 			case 5: {
-				if (notSorted) {
-					cout << "Нужен именно отсортированный массив!!" << endl;
-					break;
-				}
+
+				if (notSorted) { cout << "Нужен именно отсортированный массив!!" << endl; break; }
+
 				cout << "Введите число, чтобы узнать есть ли он в массиве или нет." << endl;
-				cin >> wantedElement;
+				cin >> choiceNumber;
+
 				start = steady_clock::now();
-				searchedElement = BinarySearh(arr, N, wantedElement);
+				cout << (BinarySearh(arr, N, choiceNumber) ? "Найдено" : "Не найдено") << endl;
 				end = steady_clock::now();
 				resultTime = duration_cast<nanoseconds>(end - start);
-				if (searchedElement) {
-					cout << "Число есть в массиве." << "\nЗатраченное время на поиск: " << resultTime.count() << endl;
-				}
-				else {
-					cout << "Числа нету в массиве." << "\nЗатраченное время на поиск: " << resultTime.count() << endl;
-				}
+
+				cout << "Затраченное время : " << resultTime.count() << endl;
 				break;
 			}
 			case 6: {
-				if (notSorted) {
-					cout << "Нужен именно отсортированный массив!!" << endl;
-					break;
-				}
+
+				if (notSorted) { cout << "Нужен именно отсортированный массив!!" << endl; break; }
+
 				cout << "Введите число, чтобы узнать есть ли он в массиве или нет." << endl;
-				cin >> wantedElement;
+				cin >> choiceNumber;
+
 				start = steady_clock::now();
-				searchedElement = JustSearch(arr, N, wantedElement);
+				cout << (JustSearch(arr, N, choiceNumber) ? "Найдено" : "Не найдено") << endl;
 				end = steady_clock::now();
 				resultTime = duration_cast<nanoseconds>(end - start);
-				if (searchedElement) {
-					cout << "Число есть в массиве." << "\nЗатраченное время на поиск: " << resultTime.count() << endl;
-				}
-				else {
-					cout << "Числа нету в массиве." << "\nЗатраченное время на поиск: " << resultTime.count() << endl;
-				}
+
+				cout << "Затраченное время : " << resultTime.count() << endl;
 				break;
 			}
 			case 7: {
